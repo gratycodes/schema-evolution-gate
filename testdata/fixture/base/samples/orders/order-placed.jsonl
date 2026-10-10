@@ -1,0 +1,4 @@
+{"order_id": "ord-1001", "customer_id": "cus-77", "amount_minor": 4599, "status": "PLACED", "lines": [{"sku": "TEA-01", "quantity": 2}], "coupon_code": null}
+{"order_id": "ord-1002", "customer_id": "cus-12", "amount_minor": 1250, "status": "PAID", "lines": [{"sku": "MUG-02", "quantity": 1}], "coupon_code": {"string": "WELCOME10"}}
+{"order_id": "ord-1003", "customer_id": "cus-77", "amount_minor": 4599, "status": "REFUNDED", "lines": [{"sku": "TEA-01", "quantity": 2}], "coupon_code": null}
+{"order_id": "ord-1004", "customer_id": "cus-31", "amount_minor": 899, "status": "PAID", "lines": [], "coupon_code": null}

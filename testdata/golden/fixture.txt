@@ -1,0 +1,24 @@
+schema-evolution-gate failed: 3 breaking changes, 2 of 4 topics failing
+base: main (<base-sha>)
+
+TOPIC      SUBJECT          FORMAT       MODE             RESULT
+orders     orders-value     Avro         FULL_TRANSITIVE  FAIL: 3 breaking, replay 4/4 failed
+payments   payments-value   JSON Schema  BACKWARD         FAIL: compatible by rules, replay 1/3 failed
+refunds    refunds-value    Avro         BACKWARD         UNCHANGED
+customers  customers-value  JSON Schema  BACKWARD         PASS: compatible (1 non-breaking change)
+
+orders-value: 3 breaking changes
+  RULE                                FIELD                         DIRECTION  AGAINST                     WHY
+  READER_FIELD_MISSING_DEFAULT_VALUE  OrderPlaced.currency          backward   base, order-placed.v1.avsc  new field `currency` has no default, so the new schema cannot read older events that lack it
+  MISSING_ENUM_SYMBOLS                OrderPlaced.status            backward   base, order-placed.v1.avsc  enum symbol removed from `status`; older events that use it cannot be read
+  TYPE_MISMATCH                       OrderPlaced.lines[].quantity  forward    base, order-placed.v1.avsc  type of `lines[].quantity` changed: data written as long cannot be read as int
+
+orders-value replay: 4 of 4 recorded payloads fail against the new schema
+  order-placed.jsonl:1 /currency: field "currency" is not in the payload and has no default
+  order-placed.jsonl:2 /currency: field "currency" is not in the payload and has no default
+  order-placed.jsonl:3 /currency: field "currency" is not in the payload and has no default
+  order-placed.jsonl:3 /status: enum symbol "REFUNDED" no longer exists in shop.orders.OrderStatus
+  order-placed.jsonl:4 /currency: field "currency" is not in the payload and has no default
+
+payments-value replay: 1 of 3 recorded payloads fail against the new schema
+  payment-captured.jsonl:2 /risk_score: got string, want integer

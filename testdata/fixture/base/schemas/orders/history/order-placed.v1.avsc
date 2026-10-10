@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "OrderPlaced",
+  "namespace": "shop.orders",
+  "fields": [
+    {"name": "order_id", "type": "string"},
+    {"name": "customer_id", "type": "string"},
+    {"name": "amount_minor", "type": "long"},
+    {"name": "status", "type": {"type": "enum", "name": "OrderStatus", "symbols": ["PLACED", "PAID", "REFUNDED"]}},
+    {"name": "lines", "type": {"type": "array", "items": {"type": "record", "name": "OrderLine", "fields": [
+      {"name": "sku", "type": "string"},
+      {"name": "quantity", "type": "int"}
+    ]}}}
+  ]
+}

@@ -1,0 +1,3 @@
+{"payment_id": "pay-501", "order_id": "ord-1002", "amount_minor": 1250, "currency": "EUR", "merchant_reference": "WEB-1002"}
+{"payment_id": "pay-502", "order_id": "ord-1004", "amount_minor": 899, "currency": "AED", "merchant_reference": "APP-1004", "risk_score": "LOW"}
+{"payment_id": "pay-503", "order_id": "ord-1005", "amount_minor": 15000, "currency": "EUR"}

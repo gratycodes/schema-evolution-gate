@@ -1,0 +1,137 @@
+{
+  "base": "main (<base-sha>)",
+  "topics": [
+    {
+      "topic": "orders",
+      "subject": "orders-value",
+      "schema": "schemas/orders/order-placed.avsc",
+      "format": "avro",
+      "mode": "FULL_TRANSITIVE",
+      "status": "fail",
+      "result": {
+        "compatible": false,
+        "compared": [
+          "base",
+          "order-placed.v1.avsc"
+        ],
+        "issues": [
+          {
+            "rule": "READER_FIELD_MISSING_DEFAULT_VALUE",
+            "direction": "backward",
+            "against": "base, order-placed.v1.avsc",
+            "path": "/fields/3",
+            "field": "OrderPlaced.currency",
+            "reason": "new field `currency` has no default, so the new schema cannot read older events that lack it",
+            "detail": "reader field \"currency\" is absent from writer data and has no default"
+          },
+          {
+            "rule": "MISSING_ENUM_SYMBOLS",
+            "direction": "backward",
+            "against": "base, order-placed.v1.avsc",
+            "path": "/fields/4/type/symbols",
+            "field": "OrderPlaced.status",
+            "reason": "enum symbol removed from `status`; older events that use it cannot be read",
+            "detail": "reader enum shop.orders.OrderStatus has no symbol(s) [REFUNDED] that the writer can produce, and no enum default"
+          },
+          {
+            "rule": "TYPE_MISMATCH",
+            "direction": "forward",
+            "against": "base, order-placed.v1.avsc",
+            "path": "/fields/4/type/items/fields/1/type",
+            "field": "OrderPlaced.lines[].quantity",
+            "reason": "type of `lines[].quantity` changed: data written as long cannot be read as int",
+            "detail": "data written as long cannot be read as int"
+          }
+        ],
+        "nonBreakingChanges": 0
+      },
+      "replay": {
+        "total": 4,
+        "failed": 4,
+        "failures": [
+          {
+            "sample": "order-placed.jsonl:1",
+            "path": "/currency",
+            "message": "field \"currency\" is not in the payload and has no default"
+          },
+          {
+            "sample": "order-placed.jsonl:2",
+            "path": "/currency",
+            "message": "field \"currency\" is not in the payload and has no default"
+          },
+          {
+            "sample": "order-placed.jsonl:3",
+            "path": "/currency",
+            "message": "field \"currency\" is not in the payload and has no default"
+          },
+          {
+            "sample": "order-placed.jsonl:3",
+            "path": "/status",
+            "message": "enum symbol \"REFUNDED\" no longer exists in shop.orders.OrderStatus"
+          },
+          {
+            "sample": "order-placed.jsonl:4",
+            "path": "/currency",
+            "message": "field \"currency\" is not in the payload and has no default"
+          }
+        ],
+        "stale": 0
+      }
+    },
+    {
+      "topic": "payments",
+      "subject": "payments-value",
+      "schema": "schemas/payments/payment-captured.schema.json",
+      "format": "json",
+      "mode": "BACKWARD",
+      "status": "fail",
+      "result": {
+        "compatible": true,
+        "compared": [
+          "base"
+        ],
+        "issues": [],
+        "nonBreakingChanges": 1
+      },
+      "replay": {
+        "total": 3,
+        "failed": 1,
+        "failures": [
+          {
+            "sample": "payment-captured.jsonl:2",
+            "path": "/risk_score",
+            "message": "got string, want integer"
+          }
+        ],
+        "stale": 0
+      }
+    },
+    {
+      "topic": "refunds",
+      "subject": "refunds-value",
+      "schema": "schemas/refunds/refund-issued.avsc",
+      "format": "avro",
+      "mode": "BACKWARD",
+      "status": "unchanged"
+    },
+    {
+      "topic": "customers",
+      "subject": "customers-value",
+      "schema": "schemas/customers/customer-updated.schema.json",
+      "format": "json",
+      "mode": "BACKWARD",
+      "status": "pass",
+      "result": {
+        "compatible": true,
+        "compared": [
+          "base"
+        ],
+        "issues": [],
+        "nonBreakingChanges": 1
+      }
+    }
+  ],
+  "breaking": 3,
+  "failedTopics": 2,
+  "passed": false
+}

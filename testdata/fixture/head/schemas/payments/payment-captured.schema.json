@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PaymentCaptured",
+  "type": "object",
+  "properties": {
+    "payment_id": {"type": "string"},
+    "order_id": {"type": "string"},
+    "amount_minor": {"type": "integer", "minimum": 0},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "merchant_reference": {"type": "string", "maxLength": 64},
+    "risk_score": {"type": "integer", "minimum": 0, "maximum": 100}
+  },
+  "required": ["payment_id", "order_id", "amount_minor", "currency"]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "RefundIssued",
+  "namespace": "shop.refunds",
+  "fields": [
+    {"name": "refund_id", "type": "string"},
+    {"name": "payment_id", "type": "string"},
+    {"name": "amount_minor", "type": "long"},
+    {"name": "reason", "type": ["null", "string"], "default": null}
+  ]
+}

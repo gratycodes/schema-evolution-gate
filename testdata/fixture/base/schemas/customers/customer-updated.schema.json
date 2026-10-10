@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CustomerUpdated",
+  "type": "object",
+  "properties": {
+    "customer_id": {"type": "string"},
+    "email": {"type": "string"},
+    "country": {"type": "string", "minLength": 2, "maxLength": 2}
+  },
+  "required": ["customer_id"],
+  "additionalProperties": false
+}
