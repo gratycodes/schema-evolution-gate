@@ -51,6 +51,8 @@ jobs:
       - uses: gratycodes/schema-evolution-gate@main
 ```
 
+A ready-to-copy workflow and config are in [`examples/`](examples).
+
 Action inputs: `config`, `base-ref` (default `origin/<PR base branch>`), `working-directory`, `fail-on-breaking` (default `true`), `comment` (default `true`), `extra-args` (for example `--all`), `github-token`. Outputs: `breaking`, `failed-topics`, `report-json`, `report-markdown`. The report is also written to the job summary. On fork PRs the token is read-only, so the comment is skipped with a warning and the check result still applies.
 
 ### CLI

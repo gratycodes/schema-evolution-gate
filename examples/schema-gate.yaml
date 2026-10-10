@@ -1,0 +1,19 @@
+# Example .schema-gate.yaml (the one used by the test fixture in testdata/fixture).
+version: 1
+defaults:
+  mode: BACKWARD
+topics:
+  - topic: orders
+    schema: schemas/orders/order-placed.avsc
+    mode: FULL_TRANSITIVE
+    history: schemas/orders/history/order-placed.v*.avsc
+    samples: samples/orders
+  - topic: payments
+    schema: schemas/payments/payment-captured.schema.json
+    # Many teams relax Confluent's STRICT JSON policy; replay keeps them honest.
+    jsonPolicy: lenient
+    samples: samples/payments
+  - topic: refunds
+    schema: schemas/refunds/refund-issued.avsc
+  - topic: customers
+    schema: schemas/customers/customer-updated.schema.json
