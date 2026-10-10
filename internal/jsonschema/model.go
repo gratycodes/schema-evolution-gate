@@ -166,7 +166,7 @@ func (l *loader) resolveRef(ref string) (*Schema, error) {
 	if !strings.HasPrefix(ref, "#") {
 		return nil, fmt.Errorf("json schema: only local $ref is supported, got %q", ref)
 	}
-	var node any = l.root
+	node := l.root
 	ptr := strings.TrimPrefix(ref, "#")
 	if ptr != "" {
 		for _, tok := range strings.Split(strings.TrimPrefix(ptr, "/"), "/") {

@@ -36,6 +36,7 @@ func TestApacheAvroCases(t *testing.T) {
 	if len(corpus.Cases) < 100 {
 		t.Fatalf("expected the full corpus, got %d cases", len(corpus.Cases))
 	}
+	t.Logf("checking %d reader/writer cases from the Apache Avro test suite", len(corpus.Cases))
 	for i, tc := range corpus.Cases {
 		r := mustParse(t, string(tc.Reader))
 		w := mustParse(t, string(tc.Writer))

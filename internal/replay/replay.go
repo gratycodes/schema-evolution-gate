@@ -9,6 +9,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -225,8 +226,8 @@ func jsonFailures(s Sample, sch *jsv.Schema) []Failure {
 	if err == nil {
 		return nil
 	}
-	ve, ok := err.(*jsv.ValidationError)
-	if !ok {
+	var ve *jsv.ValidationError
+	if !errors.As(err, &ve) {
 		return []Failure{{Sample: s.Name, Path: "/", Message: err.Error()}}
 	}
 	var out []Failure

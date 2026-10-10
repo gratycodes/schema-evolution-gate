@@ -1,0 +1,80 @@
+name: schema-evolution-gate
+description: Fail pull requests that break Kafka/event schemas (Avro, JSON Schema) using Schema Registry compatibility rules, without a registry.
+author: Gratus Antin
+branding:
+  icon: shield
+  color: orange
+
+inputs:
+  config:
+    description: Path to the config file, relative to working-directory.
+    required: false
+    default: .schema-gate.yaml
+  base-ref:
+    description: Git ref to compare against. Defaults to origin/<PR base branch>. Check out with fetch-depth 0 so it exists.
+    required: false
+    default: ""
+  working-directory:
+    description: Directory of the git checkout that holds the schemas.
+    required: false
+    default: .
+  fail-on-breaking:
+    description: Fail the step when any topic has breaking changes or failing replays.
+    required: false
+    default: "true"
+  comment:
+    description: Create or update one PR comment with the report (needs pull-requests write).
+    required: false
+    default: "true"
+  extra-args:
+    description: Extra flags for "schema-evolution-gate check", whitespace separated (for example --all).
+    required: false
+    default: ""
+  github-token:
+    description: Token used to post the comment.
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  breaking:
+    description: Number of breaking changes across all topics.
+    value: ${{ steps.run.outputs.breaking }}
+  failed-topics:
+    description: Number of topics that failed (breaking changes, failed replays or errors).
+    value: ${{ steps.run.outputs.failed-topics }}
+  report-json:
+    description: Path to the JSON report.
+    value: ${{ steps.run.outputs.report-json }}
+  report-markdown:
+    description: Path to the Markdown report (the PR comment body).
+    value: ${{ steps.run.outputs.report-markdown }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-go@v6
+      with:
+        go-version-file: ${{ github.action_path }}/go.mod
+        cache-dependency-path: ${{ github.action_path }}/go.sum
+    - name: Build schema-evolution-gate
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        SEG_VERSION: ${{ github.action_ref }}
+      run: |
+        go build -trimpath -ldflags "-X main.buildVersion=${SEG_VERSION:-local}" \
+          -o "$RUNNER_TEMP/schema-evolution-gate" ./cmd/schema-evolution-gate
+    - name: Check schema changes
+      id: run
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      # Inputs are passed through env, never interpolated into the script.
+      env:
+        SEG_BIN: ${{ runner.temp }}/schema-evolution-gate
+        SEG_CONFIG: ${{ inputs.config }}
+        SEG_BASE: ${{ inputs.base-ref }}
+        SEG_FAIL: ${{ inputs.fail-on-breaking }}
+        SEG_COMMENT: ${{ inputs.comment }}
+        SEG_EXTRA: ${{ inputs.extra-args }}
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/action-run.sh"

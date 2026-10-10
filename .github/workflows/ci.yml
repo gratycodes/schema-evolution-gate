@@ -1,0 +1,116 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+      - name: go vet
+        run: go vet ./...
+      - name: fetch Confluent JSON Schema diff examples (pinned commit)
+        run: scripts/fetch-confluent-examples.sh
+      - name: go test -race
+        env:
+          REQUIRE_CONFLUENT_EXAMPLES: "1"
+        run: go test -race -coverprofile=coverage.out ./...
+      - name: test counts
+        run: |
+          go test -race -v ./... 2>&1 | grep -cE '^\s*--- PASS' | xargs echo "passing tests and subtests:"
+          go tool cover -func=coverage.out | tail -1
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.14.0
+
+  action:
+    name: action self-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      FIXTURE: ${{ github.workspace }}/../fixture-repo
+      SAME_REPO_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: build a fixture PR (base on main, schema changes on branch pr)
+        run: scripts/make-fixture-repo.sh "$FIXTURE"
+
+      - name: run the action on the fixture PR
+        id: gate
+        uses: ./
+        with:
+          working-directory: ${{ env.FIXTURE }}
+          base-ref: main
+          fail-on-breaking: "false"
+          comment: ${{ env.SAME_REPO_PR }}
+      - name: check outputs
+        env:
+          BREAKING: ${{ steps.gate.outputs.breaking }}
+          FAILED: ${{ steps.gate.outputs.failed-topics }}
+          MD: ${{ steps.gate.outputs.report-markdown }}
+        run: |
+          echo "breaking=$BREAKING failed-topics=$FAILED"
+          test "$BREAKING" = 3
+          test "$FAILED" = 2
+          grep -q 'READER_FIELD_MISSING_DEFAULT_VALUE' "$MD"
+          grep -q 'risk_score' "$MD"
+
+      - name: run again with fail-on-breaking (must fail)
+        id: strict
+        continue-on-error: true
+        uses: ./
+        with:
+          working-directory: ${{ env.FIXTURE }}
+          base-ref: main
+          comment: ${{ env.SAME_REPO_PR }}
+      - name: the gate failed the step
+        env:
+          OUTCOME: ${{ steps.strict.outcome }}
+        run: test "$OUTCOME" = failure
+
+      - name: exactly one report comment after two runs
+        if: env.SAME_REPO_PR == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          n=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
+            --jq '[.[] | select(.body | startswith("<!-- schema-evolution-gate -->"))] | length' |
+            jq -s add)
+          echo "marker comments: $n"
+          test "$n" = 1
+
+      - name: compatible change passes
+        run: |
+          git -C "$FIXTURE" checkout -q main -- schemas/orders schemas/payments
+      - name: run the action on the compatible change
+        id: ok
+        uses: ./
+        with:
+          working-directory: ${{ env.FIXTURE }}
+          base-ref: main
+          comment: "false"
+      - name: check compatible outputs
+        env:
+          BREAKING: ${{ steps.ok.outputs.breaking }}
+          FAILED: ${{ steps.ok.outputs.failed-topics }}
+        run: test "$BREAKING" = 0 && test "$FAILED" = 0
