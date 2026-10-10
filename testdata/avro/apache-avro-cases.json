@@ -1,0 +1,1889 @@
+{
+ "source": "Transcribed from Apache Avro's Java test suite (Apache License 2.0): TestSchemas.java, TestSchemaCompatibility*.java",
+ "cases": [
+  {
+   "reader": "boolean",
+   "writer": "boolean",
+   "compatible": true
+  },
+  {
+   "reader": "int",
+   "writer": "int",
+   "compatible": true
+  },
+  {
+   "reader": "long",
+   "writer": "int",
+   "compatible": true
+  },
+  {
+   "reader": "long",
+   "writer": "long",
+   "compatible": true
+  },
+  {
+   "reader": "float",
+   "writer": "int",
+   "compatible": true
+  },
+  {
+   "reader": "float",
+   "writer": "long",
+   "compatible": true
+  },
+  {
+   "reader": "double",
+   "writer": "long",
+   "compatible": true
+  },
+  {
+   "reader": "double",
+   "writer": "int",
+   "compatible": true
+  },
+  {
+   "reader": "double",
+   "writer": "float",
+   "compatible": true
+  },
+  {
+   "reader": "string",
+   "writer": "string",
+   "compatible": true
+  },
+  {
+   "reader": "bytes",
+   "writer": "bytes",
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "array",
+    "items": "int"
+   },
+   "writer": {
+    "type": "array",
+    "items": "int"
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "array",
+    "items": "long"
+   },
+   "writer": {
+    "type": "array",
+    "items": "int"
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "map",
+    "values": "int"
+   },
+   "writer": {
+    "type": "map",
+    "values": "int"
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "map",
+    "values": "long"
+   },
+   "writer": {
+    "type": "map",
+    "values": "int"
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B",
+     "C"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ],
+    "default": "A"
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B",
+     "C"
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ],
+    "namespace": "namespace1"
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ],
+    "namespace": "namespace1"
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ],
+    "namespace": "namespace1"
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ],
+    "namespace": "namespace2"
+   },
+   "compatible": true
+  },
+  {
+   "reader": "string",
+   "writer": "bytes",
+   "compatible": true
+  },
+  {
+   "reader": "bytes",
+   "writer": "string",
+   "compatible": true
+  },
+  {
+   "reader": [],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "float"
+   ],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "float"
+   ],
+   "writer": [
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "float"
+   ],
+   "writer": [
+    "long"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "float"
+   ],
+   "writer": [
+    "int",
+    "long"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "int",
+    "string"
+   ],
+   "writer": [
+    "string",
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "long"
+   ],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "long"
+   ],
+   "writer": [
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "double"
+   ],
+   "writer": [
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "double"
+   ],
+   "writer": [
+    "long"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "double"
+   ],
+   "writer": [
+    "float"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "string"
+   ],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "string"
+   ],
+   "writer": [
+    "bytes"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "bytes"
+   ],
+   "writer": [],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "bytes"
+   ],
+   "writer": [
+    "string"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "double"
+   ],
+   "writer": [
+    "int",
+    "float"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": "float",
+   "writer": [
+    "int",
+    "float"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": "long",
+   "writer": [
+    "int",
+    "long"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": "double",
+   "writer": [
+    "int",
+    "float"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": "double",
+   "writer": [
+    "int",
+    "long",
+    "float",
+    "double"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": "float",
+   "writer": [
+    "float"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": "int",
+   "compatible": true
+  },
+  {
+   "reader": "int",
+   "writer": [
+    "int"
+   ],
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "writer": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "long"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     },
+     {
+      "name": "b",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     },
+     {
+      "name": "b",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     },
+     {
+      "name": "b",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     },
+     {
+      "name": "b",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "int"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "int"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "long"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "long"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "long"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "int"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": "null",
+   "writer": "null",
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record",
+    "fields": [
+     {
+      "name": "Field",
+      "type": {
+       "type": "enum",
+       "name": "Schema",
+       "symbols": [
+        "A",
+        "B"
+       ],
+       "default": "A"
+      }
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record",
+    "fields": [
+     {
+      "name": "Field",
+      "type": {
+       "type": "enum",
+       "name": "Schema",
+       "symbols": [
+        "A",
+        "B",
+        "C"
+       ],
+       "default": "A"
+      }
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record",
+    "fields": [
+     {
+      "name": "Field",
+      "type": {
+       "type": "enum",
+       "name": "Schema",
+       "symbols": [
+        "A",
+        "B"
+       ],
+       "default": "B"
+      },
+      "default": "A"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record",
+    "fields": [
+     {
+      "name": "Field",
+      "type": {
+       "type": "enum",
+       "name": "Schema",
+       "symbols": [
+        "A",
+        "B",
+        "C"
+       ],
+       "default": "A"
+      },
+      "default": "B"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "f1",
+      "type": [
+       "null",
+       {
+        "type": "array",
+        "items": {
+         "type": "record",
+         "name": "InnerRecord1",
+         "fields": [
+          {
+           "name": "a",
+           "type": "int"
+          }
+         ],
+         "namespace": "ns1"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "f1",
+      "type": [
+       "null",
+       {
+        "type": "array",
+        "items": {
+         "type": "record",
+         "name": "InnerRecord1",
+         "fields": [
+          {
+           "name": "a",
+           "type": "int"
+          }
+         ],
+         "namespace": "ns2"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record",
+    "fields": [
+     {
+      "name": "f1",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "ns.Record",
+    "fields": [
+     {
+      "name": "f1",
+      "type": "int"
+     }
+    ]
+   },
+   "compatible": true
+  },
+  {
+   "reader": "null",
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "null",
+   "writer": "long",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "boolean",
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": "null",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": "boolean",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": "long",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": "float",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": "double",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "long",
+   "writer": "float",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "long",
+   "writer": "double",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "float",
+   "writer": "double",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "double",
+   "writer": "string",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "writer": "string",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "string",
+   "writer": "boolean",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "string",
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "bytes",
+   "writer": "null",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "bytes",
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "array",
+    "items": "int"
+   },
+   "writer": {
+    "type": "array",
+    "items": "long"
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "map",
+    "values": "int"
+   },
+   "writer": {
+    "type": "array",
+    "items": "int"
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "array",
+    "items": "int"
+   },
+   "writer": {
+    "type": "map",
+    "values": "int"
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "map",
+    "values": "int"
+   },
+   "writer": {
+    "type": "map",
+    "values": "long"
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": {
+    "type": "enum",
+    "name": "Enum2",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum2",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "writer": "int",
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "float",
+   "writer": [
+    "int",
+    "long",
+    "float",
+    "double"
+   ],
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "long",
+   "writer": [
+    "int",
+    "float"
+   ],
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": "int",
+   "writer": [
+    "int",
+    "float"
+   ],
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "int"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "List",
+    "fields": [
+     {
+      "name": "head",
+      "type": "long"
+     },
+     {
+      "name": "tail",
+      "type": "List"
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "TYPE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B",
+     "C"
+    ]
+   },
+   "compatible": false,
+   "type": "MISSING_ENUM_SYMBOLS"
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "B",
+     "C"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B",
+     "C"
+    ]
+   },
+   "compatible": false,
+   "type": "MISSING_ENUM_SYMBOLS"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "field1",
+      "type": {
+       "type": "enum",
+       "name": "Enum1",
+       "symbols": [
+        "A",
+        "B"
+       ]
+      }
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "field1",
+      "type": {
+       "type": "enum",
+       "name": "Enum1",
+       "symbols": [
+        "A",
+        "B",
+        "C"
+       ]
+      }
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "MISSING_ENUM_SYMBOLS"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "compatible": false,
+   "type": "READER_FIELD_MISSING_DEFAULT_VALUE"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int"
+     },
+     {
+      "name": "b",
+      "type": "int",
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "compatible": false,
+   "type": "READER_FIELD_MISSING_DEFAULT_VALUE"
+  },
+  {
+   "reader": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "writer": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 8
+   },
+   "compatible": false,
+   "type": "FIXED_SIZE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 8
+   },
+   "writer": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "compatible": false,
+   "type": "FIXED_SIZE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "fixed",
+       "name": "Fixed",
+       "size": 8
+      }
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "fixed",
+       "name": "Fixed",
+       "size": 4
+      }
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "FIXED_SIZE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "fixed",
+       "name": "Fixed",
+       "size": 4
+      }
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "fixed",
+       "name": "Fixed",
+       "size": 8
+      }
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "FIXED_SIZE_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "enum",
+    "name": "Enum1",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "writer": {
+    "type": "enum",
+    "name": "Enum2",
+    "symbols": [
+     "A",
+     "B"
+    ]
+   },
+   "compatible": false,
+   "type": "NAME_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record2",
+    "fields": []
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": []
+   },
+   "compatible": false,
+   "type": "NAME_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "fixed",
+    "name": "Fixed",
+    "size": 4
+   },
+   "writer": {
+    "type": "fixed",
+    "name": "AnotherName",
+    "size": 4
+   },
+   "compatible": false,
+   "type": "NAME_MISMATCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "enum",
+       "name": "Enum1",
+       "symbols": [
+        "A",
+        "B"
+       ]
+      }
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": {
+       "type": "enum",
+       "name": "Enum2",
+       "symbols": [
+        "A",
+        "B"
+       ]
+      }
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "NAME_MISMATCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    "string"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "string"
+   ],
+   "writer": [
+    "int",
+    "string"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "record",
+     "name": "Record1",
+     "fields": [
+      {
+       "name": "field1",
+       "type": "int"
+      }
+     ]
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "record",
+     "name": "Record2",
+     "fields": [
+      {
+       "name": "field1",
+       "type": "int"
+      }
+     ]
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int",
+    {
+     "type": "record",
+     "name": "Record1",
+     "fields": [
+      {
+       "name": "field1",
+       "type": "int"
+      }
+     ]
+    }
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "record",
+     "name": "Record2",
+     "fields": [
+      {
+       "name": "field1",
+       "type": "int"
+      }
+     ]
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "enum",
+     "name": "Enum1",
+     "symbols": [
+      "A",
+      "B"
+     ]
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "fixed",
+     "name": "Fixed",
+     "size": 4
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    "boolean"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "long"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "float"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "double"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "bytes"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "array",
+     "items": "int"
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    {
+     "type": "map",
+     "values": "int"
+    }
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    "null"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": [
+    "int"
+   ],
+   "writer": [
+    "int",
+    "long",
+    "float",
+    "double"
+   ],
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  },
+  {
+   "reader": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": [
+       "int"
+      ],
+      "default": 0
+     }
+    ]
+   },
+   "writer": {
+    "type": "record",
+    "name": "Record1",
+    "fields": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": 0
+     },
+     {
+      "name": "b",
+      "type": [
+       "int",
+       "string"
+      ],
+      "default": 0
+     }
+    ]
+   },
+   "compatible": false,
+   "type": "MISSING_UNION_BRANCH"
+  }
+ ]
+}

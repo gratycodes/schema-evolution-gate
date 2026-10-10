@@ -1,0 +1,5 @@
+/schema-evolution-gate
+/dist/
+/testdata/confluent/
+coverage.out
+*.test
