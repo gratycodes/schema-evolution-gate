@@ -1,0 +1,25 @@
+# Copy to .github/workflows/schema-gate.yml in a repository that keeps its
+# event schemas next to a .schema-gate.yaml config.
+name: schema gate
+
+on:
+  pull_request:
+    paths:
+      - "schemas/**"
+      - "samples/**"
+      - ".schema-gate.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write # for the report comment
+
+jobs:
+  schema-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # the PR base must exist in git
+      - uses: gratycodes/schema-evolution-gate@main
+        with:
+          config: .schema-gate.yaml

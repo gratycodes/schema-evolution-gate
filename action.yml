@@ -55,7 +55,9 @@ runs:
     - uses: actions/setup-go@v6
       with:
         go-version-file: ${{ github.action_path }}/go.mod
-        cache-dependency-path: ${{ github.action_path }}/go.sum
+        # Two small dependencies; module caching is not worth a cache key that
+        # breaks when the action path contains "./" (uses: ./).
+        cache: false
     - name: Build schema-evolution-gate
       shell: bash
       working-directory: ${{ github.action_path }}
