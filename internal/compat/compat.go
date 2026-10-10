@@ -175,8 +175,26 @@ func Check(opts Options, history []Version, candidate Version) (Result, error) {
 			res.Issues = append(res.Issues, issues...)
 		}
 	}
+	res.Issues = mergeAcrossVersions(res.Issues)
 	res.Compatible = len(res.Issues) == 0
 	return res, nil
+}
+
+// mergeAcrossVersions folds the same break found against several previous
+// versions (transitive modes) into one issue listing every version.
+func mergeAcrossVersions(issues []Issue) []Issue {
+	out := []Issue{}
+	index := map[string]int{}
+	for _, is := range issues {
+		key := is.Rule + "|" + string(is.Direction) + "|" + is.Path + "|" + is.Field + "|" + is.Detail
+		if i, ok := index[key]; ok {
+			out[i].Against += ", " + is.Against
+			continue
+		}
+		index[key] = len(out)
+		out = append(out, is)
+	}
+	return out
 }
 
 // pair checks that reader can read data written with writer.

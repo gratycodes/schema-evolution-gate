@@ -41,7 +41,7 @@ type Failure struct {
 type Result struct {
 	Total  int `json:"total"`
 	Failed int `json:"failed"`
-	// Failures lists the first problem of each failing sample (capped).
+	// Failures lists the problems found, capped at MaxListed.
 	Failures []Failure `json:"failures"`
 	// Stale counts samples that do not even match the base schema; they say
 	// more about the samples (or the base schema) than about the change.
@@ -184,8 +184,10 @@ func Run(format compat.Format, base, head []byte, samples []Sample, enc Encoding
 		}
 		if f := check(s); len(f) > 0 {
 			res.Failed++
-			if len(res.Failures) < MaxListed {
-				res.Failures = append(res.Failures, f[0])
+			for _, one := range f {
+				if len(res.Failures) < MaxListed {
+					res.Failures = append(res.Failures, one)
+				}
 			}
 		}
 	}

@@ -27,12 +27,12 @@ func explainAvro(inc avro.Incompatibility, dir Direction) string {
 		return fmt.Sprintf("field %s was removed or renamed and had no default, so consumers on the old schema cannot read new events", f)
 	case avro.MissingEnumSymbols:
 		if back {
-			return fmt.Sprintf("enum symbol removed from %s: %s", f, inc.Message)
+			return fmt.Sprintf("enum symbol removed from %s; older events that use it cannot be read", f)
 		}
 		return fmt.Sprintf("enum symbol added to %s: consumers on the old schema cannot decode it (give the old enum a default first)", f)
 	case avro.MissingUnionBranch:
 		if back {
-			return fmt.Sprintf("union branch removed from %s: %s", f, inc.Message)
+			return fmt.Sprintf("union branch removed from %s; older events that use it cannot be read", f)
 		}
 		return fmt.Sprintf("union branch added to %s: consumers on the old schema cannot decode it", f)
 	case avro.TypeMismatch:
@@ -70,21 +70,34 @@ func explainJSON(rule, field string, dir Direction, policy jsonschema.Policy) st
 	if kw, ok := tightened[rule]; ok {
 		return fmt.Sprintf("%s tightens %s on %s; %s may violate it", reader, kw, f, writer)
 	}
+	back := dir == DirBackward
 	switch rule {
 	case "REQUIRED_ATTRIBUTE_ADDED":
-		return fmt.Sprintf("%s requires %s, but %s may omit it", reader, f, writer)
+		if back {
+			return fmt.Sprintf("the new schema makes %s required, but older events may omit it", f)
+		}
+		return fmt.Sprintf("%s is no longer required, but the old schema requires it; new events may omit it", f)
 	case "REQUIRED_PROPERTY_ADDED_TO_OPEN_CONTENT_MODEL", "REQUIRED_PROPERTY_ADDED_TO_UNOPEN_CONTENT_MODEL":
-		return fmt.Sprintf("%s adds required property %s with no default; %s do not have it", reader, f, writer)
+		if back {
+			return fmt.Sprintf("the new schema adds required property %s with no default; older events do not have it", f)
+		}
+		return fmt.Sprintf("%s was removed, but the old schema requires it; new events will not have it", f)
 	case "REQUIRED_PROPERTY_WITH_DEFAULT_ADDED_TO_OPEN_CONTENT_MODEL", "OPTIONAL_PROPERTY_ADDED_TO_OPEN_CONTENT_MODEL":
-		msg := fmt.Sprintf("%s declares %s, but the other version is an open content model, so %s may already carry %s with any type", reader, f, writer, field)
+		var msg string
+		if back {
+			msg = fmt.Sprintf("the new schema declares %s, but the old schema is an open content model, so older events may already carry %s with any type", f, f)
+		} else {
+			msg = fmt.Sprintf("%s was removed from an open content model; the old schema still declares it, and new events may carry %s with any type", f, f)
+		}
 		if policy == jsonschema.Strict {
 			msg += " (Confluent STRICT policy; set additionalProperties: false, or use jsonPolicy: lenient)"
 		}
 		return msg
 	case "PROPERTY_REMOVED_FROM_CLOSED_CONTENT_MODEL":
-		return fmt.Sprintf("%s drops %s and forbids unknown properties, so %s that include it are rejected", reader, f, writer)
-	case "PROPERTY_REMOVED_FROM_OPEN_CONTENT_MODEL":
-		return fmt.Sprintf("%s drops %s (allowed only under jsonPolicy: lenient)", reader, f)
+		if back {
+			return fmt.Sprintf("the new schema drops %s and forbids unknown properties, so older events that include it are rejected", f)
+		}
+		return fmt.Sprintf("%s is new, but the old schema forbids unknown properties (additionalProperties: false), so new events that include it are rejected", f)
 	case "PROPERTY_ADDED_NOT_COVERED_BY_PARTIALLY_OPEN_CONTENT_MODEL", "PROPERTY_REMOVED_NOT_COVERED_BY_PARTIALLY_OPEN_CONTENT_MODEL":
 		return fmt.Sprintf("%s does not fit the additionalProperties/patternProperties schema of the other version", f)
 	case "TYPE_CHANGED":
